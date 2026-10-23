@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f3ef">
+    <script src="/theme-init.js"></script>
+    <title>Taskflow — A little more clarity</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#tasks" aria-label="Taskflow home">
+          <span class="brand-mark" aria-hidden="true"><span>T</span><span>F</span></span>
+          <span class="brand-name">taskflow<span class="brand-period">.</span></span>
+        </a>
+
+        <div class="workspace-label">
+          <span class="workspace-label-text">PERSONAL WORKSPACE</span>
+          <span class="workspace-indicator" aria-hidden="true"></span>
+        </div>
+        <nav class="primary-nav">
+          <a class="nav-link active" href="#tasks" aria-current="page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8 9h8M8 13h5M8 17h3"></path></svg>
+            <span>My tasks</span><span class="nav-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="note-spark" aria-hidden="true">✳</span>
+          <p class="note-title">One thing at a time.</p>
+          <p class="note-copy">Progress is built in the small moments. Find your next one.</p>
+          <span class="note-rule" aria-hidden="true"></span>
+        </div>
+
+        <div class="sidebar-footer">
+          <span class="connection-pulse" aria-hidden="true"></span>
+          <span id="connection-label">Checking connection</span>
+          <span class="connection-label" id="connection-state">CHECKING</span>
+        </div>
+      </aside>
+
+      <main class="main-content" id="tasks">
+        <header class="topbar">
+          <button class="mobile-menu-button icon-button" id="mobile-menu-button" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+          </button>
+          <div class="breadcrumbs"><span>Workspace</span><span class="crumb-separator">/</span><strong>My tasks</strong></div>
+          <div class="topbar-meta">
+            <span class="today-label" id="today-label"></span>
+            <span class="header-divider" aria-hidden="true"></span>
+            <label class="theme-control" for="theme-select">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+              <span class="visually-hidden">Color theme</span>
+              <select id="theme-select" aria-label="Color theme">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+              <svg class="theme-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg>
+            </label>
+          </div>
+        </header>
+
+        <section class="page-heading">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-line"></span> A CLEARER KIND OF PRODUCTIVITY</p>
+            <h1>Make space for<br><span>what matters.</span></h1>
+            <p class="page-subtitle">A thoughtful place to gather your work and move it forward.</p>
+          </div>
+          <button class="button button-primary" id="new-task-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            <span>New task</span>
+            <kbd class="button-shortcut">N</kbd>
+          </button>
+        </section>
+
+        <section class="metrics-grid" aria-label="Task summary">
+          <article class="metric-card metric-total">
+            <div class="metric-top"><span class="metric-icon icon-total" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8 9h8M8 13h5"></path></svg></span><span class="metric-caption">ALL TASKS</span><span class="metric-overline">01</span></div>
+            <strong class="metric-value" id="metric-total">—</strong><span class="metric-footnote">In your workspace</span>
+          </article>
+          <article class="metric-card metric-pending">
+            <div class="metric-top"><span class="metric-icon icon-pending" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path></svg></span><span class="metric-caption">PENDING</span><span class="metric-overline">02</span></div>
+            <strong class="metric-value" id="metric-pending">—</strong><span class="metric-footnote">Waiting for your attention</span>
+          </article>
+          <article class="metric-card metric-progress">
+            <div class="metric-top"><span class="metric-icon icon-progress" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 17 10 12l3 3 6-7"></path><path d="M14 8h5v5"></path></svg></span><span class="metric-caption">IN PROGRESS</span><span class="metric-overline">03</span></div>
+            <strong class="metric-value" id="metric-progress">—</strong><span class="metric-footnote">Taking shape</span>
+          </article>
+          <article class="metric-card metric-complete">
+            <div class="metric-top"><span class="metric-icon icon-complete" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg></span><span class="metric-caption">COMPLETED</span><span class="metric-overline">04</span></div>
+            <strong class="metric-value" id="metric-completed">—</strong><span class="metric-footnote">Made it happen</span>
+          </article>
+        </section>
+
+        <section class="task-panel" aria-labelledby="task-list-heading">
+          <div class="panel-heading">
+            <div class="panel-title-group">
+              <span class="panel-kicker">YOUR DAY, IN VIEW</span>
+              <div class="panel-title-line"><h2 id="task-list-heading">Task list</h2><span class="result-count" id="result-count"></span></div>
+              <p class="panel-subtitle">Small steps, steady momentum.</p>
+            </div>
+            <span class="panel-mark" aria-hidden="true">TF / 01</span>
+          </div>
+          <div class="toolbar">
+            <label class="search-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg>
+              <span class="visually-hidden">Search tasks</span>
+              <input id="search-input" type="search" placeholder="Find a task..." autocomplete="off">
+              <button class="search-clear" id="clear-search" type="button" aria-label="Clear search" hidden>×</button>
+              <kbd>/</kbd>
+            </label>
+            <div class="toolbar-controls">
+              <label class="select-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10m-7 6h4"></path></svg>
+                <span class="visually-hidden">Filter by status</span>
+                <select id="status-filter"><option value="">All statuses</option><option value="pending">Pending</option><option value="in_progress">In progress</option><option value="completed">Completed</option></select>
+              </label>
+              <label class="select-wrap sort-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h8m-8 6h4M4 6v12m0 0 3-3m-3 3-3-3"></path></svg>
+                <span class="visually-hidden">Sort tasks</span>
+                <select id="sort-select"><option value="created_at:desc">Newest first</option><option value="created_at:asc">Oldest first</option><option value="title:asc">Title A–Z</option><option value="title:desc">Title Z–A</option><option value="updated_at:desc">Recently updated</option></select>
+              </label>
+            </div>
+          </div>
+
+          <div class="task-list" id="task-list" aria-live="polite" aria-busy="false"></div>
+          <div class="pagination">
+            <span id="pagination-label">Page 1 of 1</span>
+            <div class="pagination-buttons">
+              <button class="button button-quiet" id="previous-page" type="button" aria-label="Previous page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"></path></svg><span>Previous</span></button>
+              <button class="button button-quiet" id="next-page" type="button" aria-label="Next page"><span>Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <footer class="page-footer">
+          <span class="footer-credit">Built by <strong>Adarsh Bhoja</strong></span>
+          <span class="footer-links">
+            <a href="mailto:adarshboja70@gmail.com">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="m4 7 8 6 8-6"></path></svg>
+              <span>adarshboja70@gmail.com</span>
+            </a>
+            <a href="https://github.com/Adarshboja" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.1-1.5 6.1-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6S17.5 1.2 14 3.5a13 13 0 0 0-7 0C3.5 1.2 2.3 1.5 2.3 1.5a4.8 4.8 0 0 0-.1 3.6A5.2 5.2 0 0 0 .8 8.7c0 5.2 3.1 6.4 6.1 6.7A3.4 3.4 0 0 0 6 18.1V22"></path></svg>
+              <span>GitHub</span>
+            </a>
+          </span>
+        </footer>
+      </main>
+    </div>
+
+    <dialog class="task-dialog" id="task-dialog" aria-labelledby="dialog-title">
+      <form id="task-form" novalidate>
+        <div class="dialog-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> TASK DETAILS</p><h2 id="dialog-title">Create a task</h2></div>
+          <button class="icon-button" id="close-dialog" type="button" aria-label="Close dialog">×</button>
+        </div>
+        <input id="task-id" type="hidden">
+        <label class="form-field" for="task-title">Title <span class="required-mark" aria-hidden="true">*</span>
+          <input id="task-title" name="title" type="text" maxlength="200" required aria-describedby="title-hint" placeholder="What needs to get done?">
+          <span class="field-hint" id="title-hint">Keep it clear and concise.</span>
+        </label>
+        <label class="form-field" for="task-description">Description <span class="optional-label">OPTIONAL</span>
+          <textarea id="task-description" name="description" rows="4" maxlength="5000" placeholder="Add a few details to help you get started..."></textarea>
+        </label>
+        <label class="form-field" for="task-status">Status
+          <select id="task-status" name="status"><option value="pending">Pending</option><option value="in_progress">In progress</option><option value="completed">Completed</option></select>
+        </label>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="dialog-actions"><button class="button button-quiet" id="cancel-dialog" type="button">Cancel</button><button class="button button-primary" id="save-task" type="submit"><span class="save-label">Create task</span><span class="save-spinner" aria-hidden="true"></span></button></div>
+      </form>
+    </dialog>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>

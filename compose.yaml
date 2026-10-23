@@ -1,0 +1,80 @@
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:?Set DB_NAME in .env.docker}
+      POSTGRES_USER: ${DB_USER:?Set DB_USER in .env.docker}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env.docker}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    networks:
+      - task-manager-network
+
+  app:
+    build:
+      context: .
+      target: runtime
+    init: true
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:?Set DB_NAME in .env.docker}
+      DB_USER: ${DB_USER:?Set DB_USER in .env.docker}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env.docker}
+    ports:
+      - "127.0.0.1:${HOST_PORT:-5000}:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:' + process.env.PORT + '/health', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - task-manager-network
+
+  test:
+    build:
+      context: .
+      target: test-runner
+    init: true
+    restart: "no"
+    environment:
+      NODE_ENV: test
+      PORT: 5000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:?Set DB_NAME in .env.docker}
+      DB_USER: ${DB_USER:?Set DB_USER in .env.docker}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env.docker}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - task-manager-network
+    profiles:
+      - test
+
+volumes:
+  postgres_data:
+
+networks:
+  task-manager-network:
+    driver: bridge
